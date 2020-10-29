@@ -29,7 +29,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders'
+    'knox',
+    'corsheaders',
+    'api_admin',
+    'api_chef',
+    'api_waiter',
+    'login'
 ]
 
 MIDDLEWARE = [
@@ -138,7 +143,12 @@ REST_FRAMEWORK = {
     #    'rest_framework.renderers.JSONRenderer'
     #), 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE' : 10
+    'PAGE_SIZE' : 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'knox.auth.TokenAuthentication',
+    ]
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
