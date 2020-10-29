@@ -1,8 +1,9 @@
 from django.db import models
 from django.urls import reverse
 
+# Create your models here.
 
-class Resturant (models.Model):
+class Restaurant(models.Model):
     code = models.CharField(max_length=50, null=False, blank=False, primary_key=True)
     name = models.CharField(max_length=100, blank=False, null=False)
     cellphone = models.CharField(max_length=100, blank=False,null=False)
@@ -22,9 +23,7 @@ class Resturant (models.Model):
         )
 
     def get_absolute_url(self):
-        return reverse("login:restaurant_details", kwargs={"code": self.code})
+        return reverse("auth_app:restaurant_details", kwargs={"code": self.code})
 
     class Meta:
         db_table = "Restaurant"
-    
-    

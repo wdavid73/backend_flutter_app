@@ -1,4 +1,4 @@
-from .views.user import RegisterAPI
+from .views import RegisterAPI
 from django.urls import path
 
 urlpatterns = [

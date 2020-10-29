@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     'api_admin',
     'api_chef',
     'api_waiter',
-    'login'
+    'auth_app'
 ]
 
 MIDDLEWARE = [

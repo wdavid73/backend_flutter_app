@@ -7,7 +7,7 @@ from . import view
 
 urlpatterns = [
     path('', view.index , name="index"),
-    path('api_auth/', include('login.urls')),
+    path('api_auth/', include('auth_app.urls')),
     path('admin/', admin.site.urls),
 ]
 

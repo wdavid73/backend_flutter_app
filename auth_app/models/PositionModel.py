@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse
 
-
 class Position(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
     state = models.SmallIntegerField(default=1,null=False)
@@ -12,8 +11,8 @@ class Position(models.Model):
         return "Position : {}".format(self.name)
 
     def get_absolute_url(self):
-        return reverse("login:position_details", kwargs={"id": self.id})
+        return reverse("auth_app:position_details", kwargs={"id": self.id})
 
     class Meta:
-        db_table = "Restaurant"
+        db_table = "Position"
     
