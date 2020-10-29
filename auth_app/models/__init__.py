@@ -1,2 +1,2 @@
-from .PositionModel import Position
-from .RestaurantModel import Restaurant
+from ..Position.models.PositionModel import Position
+from ..Restaurant.models.RestaurantModel import Restaurant
