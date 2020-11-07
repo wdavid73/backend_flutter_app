@@ -22,6 +22,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'auth_app',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -34,8 +35,9 @@ INSTALLED_APPS = [
     'api_admin',
     'api_chef',
     'api_waiter',
-    'auth_app'
+    'rest_framework.authtoken'
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -139,17 +141,18 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 REST_FRAMEWORK = {
     # PRODUCTION.
-    #'DEFAULT_RENDERER_CLASSES' : (
+    # 'DEFAULT_RENDERER_CLASSES' : (
     #    'rest_framework.renderers.JSONRenderer'
-    #), 
+    # ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE' : 10,
+    'PAGE_SIZE': 10,
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
-        'knox.auth.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        # 'knox.auth.TokenAuthentication',
     ]
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+AUTH_USER_MODEL = "auth_app.CustomUser"
