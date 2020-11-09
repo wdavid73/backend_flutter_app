@@ -16,7 +16,7 @@ SECRET_KEY = 'f83_cpn)6*f!+i*1@kz+m#v!30qt8tb+zfd!3^a%28@wpie%)('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -74,24 +74,34 @@ WSGI_APPLICATION = 'my_restaurant_app.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+DATABASES = {
+    'default':  {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'idvkhfyt',
+        'USER': 'idvkhfyt',
+        'PASSWORD': 'x4iW0RDR1irMDBNvOpSbN0e883COWhyV',
+        'HOST': 'lallah.db.elephantsql.com',
+        'PORT': 5432
+    }
+}
 
-if(DEBUG == True):  # DEVELOPMENT
-    DATABASES = {
-        'default':  {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'idvkhfyt',
-            'USER': 'idvkhfyt',
-            'PASSWORD': 'x4iW0RDR1irMDBNvOpSbN0e883COWhyV',
-            'HOST': 'lallah.db.elephantsql.com',
-            'PORT': 5432
-        }
-    }
-else:  # PRODUCTION
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=config("DATABASE_URL")
-        ),
-    }
+# if(DEBUG == True):  # DEVELOPMENT
+#    DATABASES = {
+#       'default':  {
+#          'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'idvkhfyt',
+#        'USER': 'idvkhfyt',
+#       'PASSWORD': 'x4iW0RDR1irMDBNvOpSbN0e883COWhyV',
+#      'HOST': 'lallah.db.elephantsql.com',
+#     'PORT': 5432
+#  }
+#  }
+# else:  # PRODUCTION
+#   DATABASES = {
+#      'default': dj_database_url.config(
+#         default=config("DATABASE_URL")
+#    ),
+#  }
 
 
 # Password validation

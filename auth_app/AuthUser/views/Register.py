@@ -7,8 +7,7 @@ from rest_framework.authtoken.models import Token
 from ..serializers.UserSerializer import UserSerializer
 from ..serializers.RegisterSerializer import RegisterSerializer
 from ..serializers.TokenSerializer import TokenSerializer
-
-# Register API
+from ...Restaurant.models.RestaurantModel import Restaurant
 
 
 class RegisterAPI(generics.GenericAPIView):
@@ -17,15 +16,26 @@ class RegisterAPI(generics.GenericAPIView):
     # permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        token = Token.objects.create(user=user)
-        serializer_token = TokenSerializer(token, context={'request': request})
-        return Response(
-            {
-                "user": UserSerializer(user, context=self.get_serializer_context()).data,
-                "token": serializer_token.data
-            },
-            status=status.HTTP_201_CREATED
-        )
+        print(request.data["restaurant_code"])
+        if validate_restaurant(request.data["restaurant_code"]):
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            user = serializer.save()
+            token = Token.objects.create(user=user)
+            serializer_token = TokenSerializer(
+                token, context={'request': request})
+            return Response(
+                {
+                    "user": UserSerializer(user, context=self.get_serializer_context()).data,
+                    "token": serializer_token.data
+                },
+                status=status.HTTP_201_CREATED
+            )
+        return Response({"data": "the restaurant does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+
+def validate_restaurant(code: str):
+    restaurant = Restaurant.objects.filter(state=1, code=code)
+    if restaurant.exists():
+        return True
+    return False
