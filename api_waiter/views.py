@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .validate_user import validate
+from my_restaurant_app.validate_user import validate
 
 
 def api_waiter(request):

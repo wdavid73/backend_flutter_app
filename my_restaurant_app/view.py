@@ -1,6 +1,13 @@
 from django.http import HttpResponse
+from django.conf import settings
+from django.urls import URLPattern, URLResolver, get_resolver
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.exceptions import NotFound
+
+urlconf = __import__(settings.ROOT_URLCONF, {}, {}, [''])
 
 
 def index(request: Request):
@@ -18,3 +25,24 @@ def index(request: Request):
 
 def error404(request):
     raise NotFound(detail="Error 404, page not found", code=404)
+
+
+def listEndpoints(lis, acc=None):
+    if acc is None:
+        acc = []
+    if not lis:
+        return
+    l = lis[0]
+    if isinstance(l, URLPattern):
+        yield acc + [str(l.pattern)]
+    elif isinstance(l, URLResolver):
+        yield from listEndpoints(l.url_patterns, acc+[str(l.pattern)])
+    yield from listEndpoints(lis[1:], acc)
+
+
+@api_view(['GET'])
+def get_endpoints(request: Request):
+    list = []
+    for p in listEndpoints(urlconf.urlpatterns):
+        list.append(''.join(p))
+    return Response({'endpoint': list}, status=status.HTTP_200_OK)

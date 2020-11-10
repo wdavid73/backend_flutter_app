@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from auth_app.Restaurant.models.RestaurantModel import Restaurant
+from ...Ingredient.models.IngredientModel import Ingredient
 
 types = [
     ('BreakFast', 'BreakFast'),
@@ -8,22 +9,6 @@ types = [
     ('Dinner', 'Dinner'),
     ('Dessert', 'Dessert'),
 ]
-
-
-units = [
-    ('gr', 'gr'),
-    ('oz', 'oz'),
-]
-
-
-class Ingredient(models.Model):
-    name = models.CharField(max_length=100, blank=False, null=False)
-    quantity = models.IntegerField(null=False, blank=False)
-    unit = models.CharField(max_length=100, blank=False,
-                            null=False, choices=units)
-    state = models.SmallIntegerField(default=1, null=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Dish(models.Model):
