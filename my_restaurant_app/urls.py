@@ -13,6 +13,7 @@ urlpatterns = [
     path('api_waiter/', include('api_waiter.urls')),
     path('api_chef/', include('api_chef.urls')),
     path('api_admin/', include('api_admin.urls')),
+    path('restaurant/', include('auth_app.Restaurant.urls'))
     # path('admin/', admin.site.urls),
 ]
 

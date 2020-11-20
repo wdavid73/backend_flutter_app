@@ -16,10 +16,10 @@ class Dish(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     type = models.CharField(max_length=100, blank=False,
                             null=False, choices=types)
+    photo = models.ImageField(upload_to="dishes/%Y/",
+                              default='not-image.png')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE,
-                                   db_column='restaurant_code', null=True,
-                                   related_name='%(app_label)s_%(class)s_related'
-                                   )
+                                   db_column='restaurant_code', null=True)
     ingredient = models.ManyToManyField(Ingredient, through="Dish_Ingredient")
     state = models.SmallIntegerField(default=1, null=False)
     created_at = models.DateTimeField(auto_now_add=True)

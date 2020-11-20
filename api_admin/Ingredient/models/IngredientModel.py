@@ -15,3 +15,9 @@ class Ingredient(models.Model):
     state = models.SmallIntegerField(default=1, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{} - {} {}".format(self.name, self.quantity, self.unit)
+
+    class Meta:
+        db_table = "Ingredient"

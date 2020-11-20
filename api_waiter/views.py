@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from my_restaurant_app.validate_user import validate
+from my_restaurant_app.validations import validate_user
 
 
 def api_waiter(request):
-    if validate(request, 'waiter'):
+    if validate_user(request, 'waiter'):
         print(request.user.position)
         return HttpResponse("api waiter , user is authenticated and user is a waiter")
     else:

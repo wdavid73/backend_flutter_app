@@ -8,6 +8,7 @@ from ..serializers.UserSerializer import UserSerializer
 from ..serializers.RegisterSerializer import RegisterSerializer
 from ..serializers.TokenSerializer import TokenSerializer
 from ...Restaurant.models.RestaurantModel import Restaurant
+from my_restaurant_app.validations import validate_restaurant_code
 
 
 class RegisterAPI(generics.GenericAPIView):
@@ -17,7 +18,7 @@ class RegisterAPI(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         print(request.data["restaurant_code"])
-        if validate_restaurant(request.data["restaurant_code"]):
+        if validate_restaurant_code(request):
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             user = serializer.save()
@@ -32,10 +33,3 @@ class RegisterAPI(generics.GenericAPIView):
                 status=status.HTTP_201_CREATED
             )
         return Response({"data": "the restaurant does not exist"}, status=status.HTTP_404_NOT_FOUND)
-
-
-def validate_restaurant(code: str):
-    restaurant = Restaurant.objects.filter(state=1, code=code)
-    if restaurant.exists():
-        return True
-    return False
