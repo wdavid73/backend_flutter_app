@@ -34,5 +34,5 @@ def list_waiters(request: Request):
                 position__in=positions_id
             ), many=True, context={'request': request}
         )
-        return Response({"chefs": serializer.data, "status": status.HTTP_200_OK})
+        return Response({"waiters": serializer.data, "status": status.HTTP_200_OK})
     return Response({"error": "user invalid", "status": status.HTTP_401_UNAUTHORIZED})
