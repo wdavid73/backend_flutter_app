@@ -1,11 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
-# Create your views here.
+from auth_app.Restaurant.models.RestaurantModel import Restaurant
 
 
 def api_admin(request):
-    print(request.user)
+    print(Restaurant.objects.filter(state=1))
     if request.user.is_authenticated:
         return HttpResponse("api admin , user is authenticated")
     else:

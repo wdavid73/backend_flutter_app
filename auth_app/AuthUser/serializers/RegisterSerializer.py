@@ -9,12 +9,12 @@ from ...Position.serializers.PositionSerializer import PositionSerializer
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    restaurant = RestaurantSerializer(read_only=True)
+    restaurant = RestaurantSerializer(read_only=True)  # field show
     restaurant_code = serializers.PrimaryKeyRelatedField(
         write_only=True,
         queryset=Restaurant.objects.filter(state=1),
         source='restaurant'
-    )
+    )  # fields required
 
     position = PositionSerializer(read_only=True)
     position_id = serializers.PrimaryKeyRelatedField(
