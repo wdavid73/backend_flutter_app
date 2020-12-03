@@ -1,8 +1,6 @@
 from django.db import models
 from django.urls import reverse
 
-# Create your models here.
-
 
 class Restaurant(models.Model):
     code = models.CharField(max_length=50, null=False,

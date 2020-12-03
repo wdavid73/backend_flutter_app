@@ -9,10 +9,12 @@ from . import view
 
 urlpatterns = [
     path('', view.index, name="index"),
+    path('endpoints/', view.get_endpoints, name="endpoints"),
     path('api_waiter/', include('api_waiter.urls')),
     path('api_chef/', include('api_chef.urls')),
     path('api_admin/', include('api_admin.urls')),
-    path('admin/', admin.site.urls),
+    path('restaurant/', include('auth_app.Restaurant.urls'))
+    # path('admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:
