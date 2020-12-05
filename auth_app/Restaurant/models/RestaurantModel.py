@@ -14,9 +14,9 @@ class Restaurant(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "Code : {} , Name : {}, Address : {}, Phone : {}, Cellphone : {}".format(
-            self.code,
+        return "Restaurant : {}, Code : {} , Address : {}, Phone : {}, Cellphone : {}".format(
             self.name,
+            self.code,
             self.cellphone,
             self.phone,
             self.address
