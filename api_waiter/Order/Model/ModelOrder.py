@@ -15,7 +15,7 @@ class Order(models.Model):
     table = models.ForeignKey(
         Table, db_column="table_id", on_delete=models.CASCADE, null=False)
     total = models.BigIntegerField(null=False, blank=True, default=0)
-    active = models.SmallIntegerField(default=1, null=False)
+    action = models.SmallIntegerField(default=1, null=False)
     state = models.SmallIntegerField(default=1, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -80,6 +80,9 @@ class Order_User(models.Model):
     state = models.SmallIntegerField(default=1, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "order {} - user {}".format(self.order, self.user)
 
     class Meta:
         db_table = "Order_User"

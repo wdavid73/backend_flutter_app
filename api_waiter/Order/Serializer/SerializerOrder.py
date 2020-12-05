@@ -49,6 +49,7 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = [
             'code', 'date', 'total',
+            'action',
             'table', 'table_id',
             # 'drink', 'drink_id',
             # 'complement', 'complement_id',

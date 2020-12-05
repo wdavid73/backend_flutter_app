@@ -1,20 +1,20 @@
 from rest_framework import serializers
 from ...Model.ModelOrder import Order_Dish
 
-from api_admin.Dish.serializers.DishSerializer import DishSerializer
-from api_admin.Dish.models.DishModel import Dish
+from auth_app.AuthUser.serializers.UserSerializer import UserSerializer
+from auth_app.CustomUser import CustomUser
 
 from ...Model.ModelOrder import Order
 from ...Serializer.SerializerOrder import OrderSerializer
 
 
-class OrderDishSerializer(serializers.ModelSerializer):
+class OrderUserSerializer(serializers.ModelSerializer):
 
-    dish = DishSerializer(read_only=True)
-    dish_id = serializers.PrimaryKeyRelatedField(
+    user = UserSerializer(read_only=True)
+    user_id = serializers.PrimaryKeyRelatedField(
         write_only=True,
-        queryset=Dish.objects.filter(state=1),
-        source='dish'
+        queryset=CustomUser.objects.filter(state=1),
+        source='user'
     )
 
     order = OrderSerializer(read_only=True)
@@ -28,6 +28,6 @@ class OrderDishSerializer(serializers.ModelSerializer):
         model = Order_Dish
         fields = [
             'id',
-            'dish', 'dish_id',
+            'user', 'user_id',
             'order', 'order_code'
         ]

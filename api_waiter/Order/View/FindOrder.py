@@ -20,7 +20,7 @@ from my_restaurant_app.validations import user_validate_required
 @api_view(["GET"])
 @user_validate_required
 def find_order(request: Request, code: str):
-    order = Order.objects.exclude(active=3).get(code=code)
+    order = Order.objects.exclude(action=3).get(code=code)
     order_dish = Order_Dish.objects.filter(order=order)
     dishes_id = [od.dish.id for od in order_dish]
     order_serializer = OrderSerializer(order, context={'request': request})

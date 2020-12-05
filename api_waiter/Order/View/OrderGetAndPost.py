@@ -1,22 +1,24 @@
 import random
 from typing import Union, List, Dict
 from django.db.models import QuerySet
+from django.http.request import QueryDict
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from ..Model.ModelOrder import Order
-from ..Serializer.SerializerOrder import OrderSerializer
-
 from my_restaurant_app.validations import validate_user
+
+from auth_app.CustomUser import CustomUser
+from ..Order_User.Serializer.Order_UserSerializer import OrderUserSerializer
+from ..Model.ModelOrder import Order, Order_User
+from ..Serializer.SerializerOrder import OrderSerializer
 
 
 class GetAndPost(APIView):
 
     def get(self, request: Request):
         if validate_user(request):
-            orders = Order.objects.filter(active=1)
+            orders = Order.objects.filter(action=1)
             serializer = OrderSerializer(
                 orders, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -26,16 +28,32 @@ class GetAndPost(APIView):
         if validate_user(request):
             new_order = request.data.copy()
             new_order["code"] = generate_code(
-                Order.objects.filter(active=1), dictLetter
+                Order.objects.filter(action=1), dictLetter
             )
             serializer = OrderSerializer(
                 data=new_order, context={'request': request}
             )
             if serializer.is_valid():
                 serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                serializer_order_user = save_order_user(
+                    new_order["code"], request.user, request
+                )
+                return Response(
+                    {
+                        "data": serializer.data,
+                        "order_user": serializer_order_user.data
+                    },
+                    status=status.HTTP_201_CREATED
+                )
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response({"error": "user invalid"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+def save_order_user(code: str, user: CustomUser, request: Request):
+    order = Order.objects.get(code=code)
+    order_user = Order_User.objects.create(user=user, order=order)
+    serializer = OrderUserSerializer(order_user, context={'request': request})
+    return serializer
 
 
 def generate_code(row: Union[QuerySet, List[Order]], dictLetter: Dict):
