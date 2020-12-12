@@ -9,6 +9,8 @@ urlpatterns = [
     path("dish/ingredients/", include("api_admin.Dish.urls")),
     path("tables/", include("api_admin.Table.urls")),
     path("register/", include("api_waiter.Waiter.urls")),
+    path("complement/", include("api_admin.Complement.urls")),
+    path("drink/", include("api_admin.Drink.urls")),
     path("list_chefs/", list_chefs, name="list_of_chefs"),
     path("list_waiters/", list_waiters, name="list_of_waiters"),
     # Authentication

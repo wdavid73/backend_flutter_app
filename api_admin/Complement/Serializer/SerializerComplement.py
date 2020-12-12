@@ -6,4 +6,4 @@ class ComplementSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Complement
-        fields = '__all__'
+        fields = ['id', 'name', 'price', 'quantity', 'unit']

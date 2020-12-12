@@ -11,4 +11,6 @@ urlpatterns = [
     path("action/<str:code>/<int:action>/", order_action, name="order_action"),
     path("close/<str:code>/", order_close, name="order_close"),
     path("dish/", include("api_waiter.Order.Order_Dish.urls")),
+    path("complement/", include("api_waiter.Order.Order_Complement.urls")),
+    path("drink/", include("api_waiter.Order.Order_Drinks.urls")),
 ]
