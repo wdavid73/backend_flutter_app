@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from my_restaurant_app.validations import validate_user
+from my_restaurant_app.validations import validate_user, type_user_valid
 
 from auth_app.CustomUser import CustomUser
 from ..Order_User.Serializer.Order_UserSerializer import OrderUserSerializer
@@ -26,26 +26,27 @@ class GetAndPost(APIView):
 
     def post(self, request: Request) -> Response:
         if validate_user(request):
-            new_order = request.data.copy()
-            new_order["code"] = generate_code(
-                Order.objects.filter(action=1), dictLetter
-            )
-            serializer = OrderSerializer(
-                data=new_order, context={'request': request}
-            )
-            if serializer.is_valid():
-                serializer.save()
-                serializer_order_user = save_order_user(
-                    new_order["code"], request.user, request
+            if type_user_valid(request):
+                new_order = request.data.copy()
+                new_order["code"] = generate_code(
+                    Order.objects.filter(action=1), dictLetter
                 )
-                return Response(
-                    {
-                        "data": serializer.data,
-                        "order_user": serializer_order_user.data
-                    },
-                    status=status.HTTP_201_CREATED
+                serializer = OrderSerializer(
+                    data=new_order, context={'request': request}
                 )
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                if serializer.is_valid():
+                    serializer.save()
+                    serializer_order_user = save_order_user(
+                        new_order["code"], request.user, request
+                    )
+                    return Response(
+                        {
+                            "data": serializer.data,
+                            "order_user": serializer_order_user.data
+                        },
+                        status=status.HTTP_201_CREATED
+                    )
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response({"error": "user invalid"}, status=status.HTTP_401_UNAUTHORIZED)
 
 

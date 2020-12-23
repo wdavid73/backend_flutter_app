@@ -3,6 +3,7 @@ from rest_framework.request import Request
 from auth_app.Restaurant.models.RestaurantModel import Restaurant
 
 types_authorized_users = ["admin", "chef", "waiter"]
+type_users_valid = ["admin", "waiter"]
 
 
 def user_validate_required(view_func=None):
@@ -21,6 +22,14 @@ def user_validate_required(view_func=None):
 def validate_user(request: Request) -> bool:
     if request.user.is_authenticated:
         if request.user.position.name.lower() in types_authorized_users:
+            return True
+    else:
+        raise PermissionDenied
+
+
+def type_user_valid(request: Request) -> bool:
+    if request.user.is_authenticated:
+        if request.user.position.name.lower() in type_users_valid:
             return True
     else:
         raise PermissionDenied
