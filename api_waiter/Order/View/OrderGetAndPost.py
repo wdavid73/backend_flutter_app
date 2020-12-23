@@ -10,20 +10,21 @@ from my_restaurant_app.validations import validate_user
 
 from auth_app.CustomUser import CustomUser
 from ..Order_User.Serializer.Order_UserSerializer import OrderUserSerializer
-from ..Model.ModelOrder import Order, Order_User, Order_Dish
+from ..Model.ModelOrder import Order, Order_User, Order_Dish, Order_Drinks, Order_Complement
 from ..Serializer.SerializerOrder import OrderSerializer
 
 
 class GetAndPost(APIView):
 
-    def get(self, request: Request):
+    def get(self, request: Request) -> Response:
         if validate_user(request):
             orders = Order.objects.filter(action=1)
-            serializer = OrderSerializer(orders, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            serializer = OrderSerializer(
+                orders, many=True, context={'request': request})
+            return Response({"order": serializer.data}, status=status.HTTP_200_OK)
         return Response({"error": "user invalid"}, status=status.HTTP_401_UNAUTHORIZED)
 
-    def post(self, request: Request):
+    def post(self, request: Request) -> Response:
         if validate_user(request):
             new_order = request.data.copy()
             new_order["code"] = generate_code(

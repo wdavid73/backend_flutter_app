@@ -5,6 +5,8 @@ from rest_framework.views import APIView
 from my_restaurant_app.validations import validate_user
 from ...Model.ModelOrder import Order_Complement
 from ..Serializer.OrderComplementSerializer import OrderComplementSerializer
+from ...View.total_order import calculate_total_order
+from api_admin.Complement.Model.ModelComplement import Complement
 
 
 class GetAndPost(generics.GenericAPIView):
@@ -24,6 +26,12 @@ class GetAndPost(generics.GenericAPIView):
                 data=request.data, context={'request': request})
             if serializer.is_valid():
                 serializer.save()
+                # add price to total of order
+                calculate_total_order(
+                    request.data["order_code"],
+                    request.data["complement_id"],
+                    Complement
+                )
                 return Response({"data": serializer.data}, status=status.HTTP_201_CREATED)
             return Response({"data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         return Response({"data": "user invalid"}, status=status.HTTP_401_UNAUTHORIZED)
