@@ -17,7 +17,6 @@ class RegisterAPI(generics.GenericAPIView):
     # permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        print(request.data["restaurant_code"])
         if validate_restaurant_code(request):
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
