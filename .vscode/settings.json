@@ -3,6 +3,6 @@
   "python.linting.pylintArgs": [
     "--load-plugins=pylint_django",
 ],
-  "editor.fontFamily": "JetBrains Mono,",
+  "editor.fontFamily": "'JetBrains Mono',Consolas, 'Courier New', monospace",
   "editor.fontLigatures": true
 }

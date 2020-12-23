@@ -5,8 +5,10 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from my_restaurant_app.validations import validate_user, user_validate_required
 
-from ..Model.ModelOrder import Order
+from ..Model.ModelOrder import Order, Order_Dish
 from ..Serializer.SerializerOrder import OrderSerializer
+from api_admin.Dish.models.DishModel import Dish
+from api_admin.Dish.serializers.DishSerializer import DishSerializer
 
 
 class EditOrder(generics.GenericAPIView):
@@ -30,7 +32,23 @@ class EditOrder(generics.GenericAPIView):
         return Response({"error": "user invalid"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
-@api_view(["GET"])
+@api_view(["POST"])
 @user_validate_required
 def edit_order(request: Request, code: str):
-    return Response({"data": "data"}, status=status.HTTP_200_OK)
+    order = Order.objects.get(code=code)
+    # update order
+    data = request.data.copy()
+    data["code"] = order.code
+    data["date"] = order.date
+    serializer = OrderSerializer(
+        order, data, context={'request': request})
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"order": serializer.data}, status=status.HTTP_200_OK)
+    return Response({"errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+@user_validate_required
+def edit_order_items(request: Request, code: str):
+    pass
