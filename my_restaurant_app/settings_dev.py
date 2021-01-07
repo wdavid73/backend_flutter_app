@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-from typing import cast
 from decouple import config
 import dj_database_url
 
@@ -9,21 +8,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG', cast=bool)
-DEBUG_PROPAGATE_EXCEPTIONS = True
-
-REST_FRAMEWORK = {
-    # PRODUCTION.
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-    ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ]
-}
 
 ALLOWED_HOSTS = ["*"]
 
@@ -78,12 +62,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'my_restaurant_app.wsgi.application'
 
-# DATABASES = {
-#    'default': dj_database_url.config(
-# default=config("DATABASE_URL")
-#    )
-# }
-
 DATABASES = {
     'default':  {
         'ENGINE': 'django.db.backends.postgresql',
@@ -130,47 +108,49 @@ MEDIA_URL = '/media/'
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
 
 CORS_ORIGIN_ALLOW_ALL = True
 
 AUTH_USER_MODEL = "auth_app.CustomUser"
-
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': ('%(asctime)s [%(process)d] [%(levelname)s] '
-                       'pathname=%(pathname)s lineno=%(lineno)s '
-                       'funcname=%(funcName)s %(message)s'),
-            'datefmt': '%Y-%m-%d %H:%M:%S'
+            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt': "%d/%b/%Y %H:%M:%S"
         },
         'simple': {
             'format': '%(levelname)s %(message)s'
-        }
+        },
     },
     'handlers': {
-        'null': {
+        'file': {
             'level': 'DEBUG',
-            'class': 'logging.NullHandler',
-        },
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
+            'class': 'logging.FileHandler',
+            'filename': 'mysite.log',
             'formatter': 'verbose'
-        }
+        },
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
+            'handlers': ['file'],
             'propagate': True,
-        },
-        'django.request': {
-            'handlers': ['console'],
             'level': 'DEBUG',
-            'propagate': False,
+        },
+        'MYAPP': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
         },
     }
 }

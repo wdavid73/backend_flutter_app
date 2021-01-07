@@ -8,9 +8,15 @@ https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/
 """
 
 import os
-
 from django.core.wsgi import get_wsgi_application
+from decouple import config
+ENVIROMENT_DEVELOPMENT = config('DEVELOPMENT', cast=bool)
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'my_restaurant_app.settings')
+if ENVIROMENT_DEVELOPMENT:
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE',
+                          'my_restaurant_app.settings_dev')
+else:
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE',
+                          'my_restaurant_app.settings')
 
 application = get_wsgi_application()
