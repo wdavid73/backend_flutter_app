@@ -4,7 +4,7 @@ autopep8==1.5.4
 blessings==1.7
 cffi==1.14.3
 click==7.1.2
-cryptography==3.2.1
+cryptography==3.3.2
 curtsies==0.3.4
 dj-database-url==0.5.0
 Django==3.1.2
