@@ -37,9 +37,21 @@ def type_user_valid(request: Request) -> bool:
 
 
 def validate_restaurant_code(request: Request) -> bool:
-    code = request.user.restaurant.code
-    restaurant = Restaurant.objects.filter(state=1, code=code)
-    if restaurant.exists():
-        return True
+    if not hasattr(request.user, 'restaurant'):
+        if 'restaurant_code' in request.data:
+            data = request.data.copy()
+            code = data["restaurant_code"]
+            restaurant = Restaurant.objects.filter(state=1, code=code)
+            if restaurant.exists():
+                return True
+            else:
+                raise PermissionDenied
+        else:
+            return False
     else:
-        raise PermissionDenied
+        code = request.user.restaurant.code
+        restaurant = Restaurant.objects.filter(state=1, code=code)
+        if restaurant.exists():
+            return True
+        else:
+            raise PermissionDenied
