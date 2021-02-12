@@ -9,7 +9,8 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ["127.0.0.1" , "192.168.232.2"]
+ALLOWED_HOSTS = ["127.0.0.1", "192.168.232.2",
+                 "my-resturant-api.herokuapp.com"]
 
 
 INSTALLED_APPS = [
