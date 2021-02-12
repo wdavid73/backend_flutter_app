@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
+from rest_framework.views import APIView
 from ..serializers.UserSerializer import UserSerializer
 from ..serializers.RegisterSerializer import RegisterSerializer
 from ..serializers.TokenSerializer import TokenSerializer
@@ -11,14 +12,14 @@ from ...Restaurant.models.RestaurantModel import Restaurant
 from my_restaurant_app.validations import validate_restaurant_code
 
 
-class RegisterAPI(generics.GenericAPIView):
-    serializer_class = RegisterSerializer
+class RegisterAPI(APIView):
+    # serializer_class = RegisterSerializer
     # authentication_classes = [SessionAuthentication, BasicAuthentication]
     # permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         if validate_restaurant_code(request):
-            serializer = self.get_serializer(data=request.data)
+            serializer = RegisterSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             user = serializer.save()
             token = Token.objects.create(user=user)

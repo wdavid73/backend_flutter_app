@@ -25,7 +25,7 @@ REST_FRAMEWORK = {
     ]
 }
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["192.168.232.2" , "127.0.0.1"]
 
 
 INSTALLED_APPS = [
