@@ -27,7 +27,8 @@ class RegisterAPI(APIView):
                 token, context={'request': request})
             return Response(
                 {
-                    "user": UserSerializer(user, context=self.get_serializer_context()).data,
+                    #"user": UserSerializer(user, context=self.get_serializer_context()).data,
+                    "user": UserSerializer(user, context={'request' : request}).data,
                     "token": serializer_token.data
                 },
                 status=status.HTTP_201_CREATED

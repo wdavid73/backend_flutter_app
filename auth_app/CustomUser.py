@@ -51,8 +51,8 @@ class CustomUser(AbstractUser):
         return self.email
 
     def __str__(self):
-        return "{} - {} {} - {} - {} | {} - {}".format(self.pk, self.first_name, self.last_name,
-                                                       self.email, self.phone, self.position, self.restaurant)
+        return "{} - {} - {} {} - {} - {} | {} - {}".format(self.pk, self.username, self.first_name, self.last_name,
+                                                            self.email, self.phone, self.position, self.restaurant)
 
     objects = CustomUserManager()
 
