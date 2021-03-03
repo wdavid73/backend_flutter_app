@@ -9,8 +9,8 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ["127.0.0.1", "192.168.232.2",
-                 "my-resturant-api.herokuapp.com", "localhost" , "10.0.2.2"]
+ALLOWED_HOSTS = ["127.0.0.1", "192.168.232.2", "172.20.233.112",
+                 "my-resturant-api.herokuapp.com", "localhost", "10.0.2.2"]
 
 
 INSTALLED_APPS = [
@@ -22,12 +22,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'knox',
     'corsheaders',
     'api_admin',
     'api_chef',
     'api_waiter',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'dj_rest_auth',
 ]
 
 
