@@ -43,7 +43,7 @@ class Dish_Ingredient(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "Dish : {} - Ingredient {}".format(self.dish, self.ingredient)
+        return "{} - {}".format(self.dish, self.ingredient)
 
     class Meta:
         db_table = "Dish_Ingredient"

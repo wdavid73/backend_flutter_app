@@ -11,12 +11,14 @@ from auth_app.AuthUser.serializers.UserSerializer import UserSerializer
 @api_view(["GET"])
 def list_chefs(request: Request):
     if validate_user(request):
+        restaurant_code = request.user.restaurant.code
         positions_id = [
-            position.id for position in Position.objects.filter(state=1, name="chef")]
+            position.id for position in Position.objects.filter(state=1, name="Chef")]
         serializer = UserSerializer(
             CustomUser.objects.filter(
                 state=1,
-                position__in=positions_id
+                position__in=positions_id,
+                restaurant_id=restaurant_code,
             ), many=True, context={'request': request}
         )
         return Response({"chefs": serializer.data, "status": status.HTTP_200_OK})
@@ -26,12 +28,14 @@ def list_chefs(request: Request):
 @api_view(["GET"])
 def list_waiters(request: Request):
     if validate_user(request):
+        restaurant_code = request.user.restaurant.code
         positions_id = [
-            position.id for position in Position.objects.filter(state=1, name="waiter")]
+            position.id for position in Position.objects.filter(state=1, name="Waiter")]
         serializer = UserSerializer(
             CustomUser.objects.filter(
                 state=1,
-                position__in=positions_id
+                position__in=positions_id,
+                restaurant_id=restaurant_code,
             ), many=True, context={'request': request}
         )
         return Response({"waiters": serializer.data, "status": status.HTTP_200_OK})

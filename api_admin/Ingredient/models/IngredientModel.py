@@ -17,7 +17,7 @@ class Ingredient(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "{} - {} {}".format(self.name, self.quantity, self.unit)
+        return "Ingredient {} - {} - {} {}".format(self.id, self.name, self.quantity, self.unit)
 
     class Meta:
         db_table = "Ingredient"

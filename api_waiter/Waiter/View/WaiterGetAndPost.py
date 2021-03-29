@@ -16,12 +16,14 @@ class GetAndPostFromAdmin(APIView):
 
     def get(self, request: Request):
         if validate_user(request):
+            restaurant_code = request.user.restaurant.code
             positions_id = [
-                position.id for position in Position.objects.filter(state=1, name="waiter")]
+                position.id for position in Position.objects.filter(state=1, name="Waiter")]
             serializer = UserSerializer(
                 CustomUser.objects.filter(
                     state=1,
-                    position__in=positions_id
+                    position__in=positions_id,
+                    restaurant_id=restaurant_code,
                 ), many=True, context={'request': request}
             )
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -29,7 +31,7 @@ class GetAndPostFromAdmin(APIView):
 
     def post(self, request: Request):
         if validate_user(request):
-            position_waiter = Position.objects.get(state=1, name="waiter")
+            position_waiter = Position.objects.get(state=1, name="Waiter")
             new_waiter = request.data.copy()
             new_waiter["position_id"] = position_waiter.id
             new_waiter["restaurant_code"] = request.user.restaurant.code

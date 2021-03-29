@@ -14,29 +14,33 @@ from ...Ingredient.serializers.IngredientSerializer import IngredientSerializer
 @api_view(["GET"])
 @user_validate_required
 def get_dish_with_ingredient(request: Request, id: int):
-    dish = DishSerializer(
-        Dish.objects.filter(state=1,
-                            id=Dish_Ingredient.objects.filter(
-                                state=1,
-                                dish_id=id)[0].dish.id
-                            # primer platillo ya que se repiten
-                            ), many=True, context={'request': request}
-    ).data
-    response_ingredients = [
-        IngredientSerializer(
-            ingredient, context={"request": request}
-        ).data for ingredient in Ingredient.objects.filter(
-            id__in=[
-                ingredients.ingredient.id for ingredients in list(
-                    Dish_Ingredient.objects.filter(state=1, dish_id=id)
-                    # lista de id de los ingredientes del platillo
-                )
-            ], state=1
+    if len(Dish_Ingredient.objects.filter(state=1, dish_id=id)) > 0:
+        dish = DishSerializer(
+            Dish.objects.get(state=1, id=id),
+            context={'request': request}
+        ).data
+        response_ingredients = [
+            IngredientSerializer(
+                ingredient,
+                context={'request': request}
+            ).data for ingredient in Ingredient.objects.filter(
+                id__in=Ingredient.objects.filter(
+                    state=1,
+                    id__in=Dish_Ingredient.objects.filter(
+                        dish_id=id
+                    ).values_list(
+                        "ingredient",
+                        flat=True
+                    )
+                ),
+                state=1
+            )
+        ]
+        return Response(
+            {
+                "dish": dish,
+                "ingredients": response_ingredients,
+            }, status=status.HTTP_200_OK
         )
-    ]
-    return Response(
-        {
-            "dish": dish,
-            "ingredients": response_ingredients,
-            "status": status.HTTP_200_OK}
-    )
+    else:
+        return Response("Dish without Ingredients", status=status.HTTP_404_NOT_FOUND)

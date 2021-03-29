@@ -6,7 +6,7 @@ urlpatterns = [
     path("", api_admin, name="index_api_admin"),
     path("dish/", include("api_admin.Dish.urls")),
     path("ingredients/", include("api_admin.Ingredient.urls")),
-    path("dish/ingredients/", include("api_admin.Dish.urls")),
+    #path("dish/ingredients/", include("api_admin.Dish.urls")),
     path("tables/", include("api_admin.Table.urls")),
     path("register/", include("api_waiter.Waiter.urls")),
     path("complement/", include("api_admin.Complement.urls")),

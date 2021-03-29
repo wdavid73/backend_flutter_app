@@ -10,7 +10,8 @@ from ..serializers.DishSerializer import DishSerializer
 class GetAndPost(APIView):
     def get(self, request: Request):
         if validate_user(request):
-            dish = Dish.objects.filter(state=1)
+            restaurant_code = request.user.restaurant.code
+            dish = Dish.objects.filter(state=1, restaurant_id = restaurant_code).order_by("id")
             serializer = DishSerializer(
                 dish, many=True, context={'request': request})
             return Response({"dish": serializer.data}, status=status.HTTP_200_OK)
