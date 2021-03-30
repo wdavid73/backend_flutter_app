@@ -36,4 +36,11 @@ class GetByUser(APIView):
         user = CustomUser.objects.get(id=id, state=1)
         serializer = PositionSerializer(
             user.position, context={"request": request})
-        return Response({"id" : user.position.id, "name": user.position.name})
+        return Response({"id": user.position.id, "name": user.position.name})
+
+
+class GetByName(APIView):
+    def get(self, request: Request, name: str):
+        position = Position.objects.get(name=name)
+        serializer = PositionSerializer(position, context={"request": request})
+        return Response({"position": serializer.data}, status=status.HTTP_200_OK)

@@ -50,6 +50,9 @@ class CustomUser(AbstractUser):
     def get_email_field(self):
         return self.email
 
+    def get_restaurant(self):
+        return self.restaurant
+
     def __str__(self):
         return "{} - {} - {} {} - {} - {} | {} - {}".format(self.pk, self.username, self.first_name, self.last_name,
                                                             self.email, self.phone, self.position, self.restaurant)

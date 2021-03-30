@@ -1,3 +1,4 @@
+from auth_app.CustomUser import CustomUser
 import random
 from typing import Union, List, Dict
 from django.db.models import QuerySet
@@ -27,6 +28,12 @@ class GetAndPost(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetCodeByUserId(APIView):
+    def get(self, request: Request, id: int):
+        user = CustomUser.objects.get(id=id)
+        return Response({"code": user.restaurant.code}, status=status.HTTP_200_OK)
 
 
 def generate_code(row: Union[QuerySet, List[Restaurant]], dictLetter: Dict):

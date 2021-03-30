@@ -17,9 +17,9 @@ class Restaurant(models.Model):
         return "Restaurant : {}, Code : {} , Address : {}, Phone : {}, Cellphone : {}".format(
             self.name,
             self.code,
+             self.address,
+             self.phone,
             self.cellphone,
-            self.phone,
-            self.address
         )
 
     def get_absolute_url(self):
