@@ -1,4 +1,4 @@
-# API in Django 3.1.2 and Django Rest Framework
+# API in Django 3.1.6 and Django Rest Framework 3.12.1
 
 this api is created a only utilized for my own project about a restaurant
 
