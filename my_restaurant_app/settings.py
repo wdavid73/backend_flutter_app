@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'api_chef',
     'api_waiter',
     'rest_framework.authtoken'
+    'dj_rest_auth',
 ]
 
 
@@ -78,22 +79,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'my_restaurant_app.wsgi.application'
 
-# DATABASES = {
-#    'default': dj_database_url.config(
-# default=config("DATABASE_URL")
-#    )
-# }
-
 DATABASES = {
-    'default':  {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': 5432
-    }
+    'default': dj_database_url.config(
+ default=config("DATABASE_URL")
+    )
 }
+
+#DATABASES = {
+#    'default':  {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': config('DB_NAME'),
+#        'USER': config('DB_USER'),
+#        'PASSWORD': config('DB_PASSWORD'),
+#        'HOST': config('DB_HOST'),
+#        'PORT': 5432
+#    }
+#}
 
 
 AUTH_PASSWORD_VALIDATORS = [
