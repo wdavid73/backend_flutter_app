@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from my_restaurant_app.validations import validate_user
 
-from auth_app.CustomUser import CustomUser
+from auth_app.models import CustomUser
 from auth_app.AuthUser.serializers.UserSerializer import UserSerializer
 from auth_app.AuthUser.serializers.RegisterSerializer import RegisterSerializer
 from auth_app.Position.models.PositionModel import Position

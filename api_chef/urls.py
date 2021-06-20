@@ -12,6 +12,6 @@ urlpatterns = [
     path("action/", order_action, name="change_action"),
     path("details_order/", find_order, name="details_order"),
 
-    path('api_auth/', include('auth_app.urls_auth')),
+    #path('api_auth/', include('auth_app.urls_auth')),
 
 ]

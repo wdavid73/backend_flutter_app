@@ -1,4 +1,3 @@
-from auth_app.CustomUser import CustomUser
 import random
 from typing import Union, List, Dict
 from django.db.models import QuerySet
@@ -7,6 +6,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from auth_app.models import CustomUser
 from ..models.RestaurantModel import Restaurant
 from ..serializers.RestaurantSerializer import RestaurantSerializer
 

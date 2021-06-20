@@ -13,15 +13,16 @@ urlpatterns = [
     path('api_waiter/', include('api_waiter.urls')),
     path('api_chef/', include('api_chef.urls')),
     path('api_admin/', include('api_admin.urls')),
+    path("api_auth/", include("auth_app.urls_auth")),
     path('restaurant/', include('auth_app.Restaurant.urls')),
-    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    #path('dj-rest-auth/', include('dj_rest_auth.urls')),
     # path('admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
-    
+
 # ROUTE MAP OF LOGIN
 # 1. api_admin/api_auth/register (POST)
 # 2. dj-rest-auth/login (POST)

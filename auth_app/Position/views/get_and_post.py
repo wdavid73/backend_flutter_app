@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from ..models.PositionModel import Position
 from ..serializers.PositionSerializer import PositionSerializer
-from ...CustomUser import CustomUser
+from ...models import CustomUser
 
 
 class GetAndPost(APIView):

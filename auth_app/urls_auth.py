@@ -1,5 +1,4 @@
-from django.conf import settings
-from django.urls import path, include
+from django.urls import path
 from .AuthUser.views.Register import RegisterAPI
 from .AuthUser.views.Login import LoginAPI
 from .AuthUser.views.Logout import Logout

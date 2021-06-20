@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from my_restaurant_app.validations import validate_user, type_user_valid
 
-from auth_app.CustomUser import CustomUser
+from auth_app.models import CustomUser
 from ..Order_User.Serializer.Order_UserSerializer import OrderUserSerializer
 from ..Model.ModelOrder import Order, Order_User, Order_Dish, Order_Drinks, Order_Complement
 from ..Serializer.SerializerOrder import OrderSerializer

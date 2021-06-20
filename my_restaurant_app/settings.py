@@ -30,7 +30,6 @@ ALLOWED_HOSTS = ["192.168.232.2", "127.0.0.1",
 
 
 INSTALLED_APPS = [
-    'auth_app',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,12 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken'
     'corsheaders',
+    'auth_app',
     'api_admin',
     'api_chef',
     'api_waiter',
-    'rest_framework.authtoken'
-    'dj_rest_auth',
+    # 'dj_rest_auth',
 ]
 
 
@@ -81,11 +81,11 @@ WSGI_APPLICATION = 'my_restaurant_app.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
- default=config("DATABASE_URL")
+        default=config("DATABASE_URL")
     )
 }
 
-#DATABASES = {
+# DATABASES = {
 #    'default':  {
 #        'ENGINE': 'django.db.backends.postgresql',
 #        'NAME': config('DB_NAME'),
@@ -94,7 +94,7 @@ DATABASES = {
 #        'HOST': config('DB_HOST'),
 #        'PORT': 5432
 #    }
-#}
+# }
 
 
 AUTH_PASSWORD_VALIDATORS = [

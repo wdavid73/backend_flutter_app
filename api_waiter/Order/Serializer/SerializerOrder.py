@@ -5,7 +5,7 @@ from api_admin.Table.Model.ModelTable import Table
 from api_admin.Drink.Model.ModelDrink import Drink
 from api_admin.Complement.Model.ModelComplement import Complement
 from api_admin.Dish.models.DishModel import Dish
-from auth_app.CustomUser import CustomUser
+from auth_app.models import CustomUser
 
 from api_admin.Table.Serializer.SerializerTable import TableSerializer
 from api_admin.Drink.Serializer.SerializerDrink import DrinkSerializer

@@ -10,13 +10,11 @@ from rest_framework.authentication import TokenAuthentication
 
 
 class LoginAPI(generics.GenericAPIView):
-    permission_classes = (permissions.AllowAny,)
-    authentication_classes = [TokenAuthentication]
-    serializer_class = AuthTokenSerializer
+    #permission_classes = (permissions.AllowAny,)
+    #authentication_classes = [TokenAuthentication]
+    #serializer_class = AuthTokenSerializer
 
-    def post(self, request, format=None):
-        print(request.user.is_authenticated)
-        print(request.auth)
+    def post(self, request):
         if not request.user.is_authenticated:
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)

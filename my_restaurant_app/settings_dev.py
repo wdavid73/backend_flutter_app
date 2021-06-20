@@ -14,7 +14,7 @@ ALLOWED_HOSTS = ["127.0.0.1", "192.168.232.2", "172.20.233.112",
 
 
 INSTALLED_APPS = [
-    'auth_app',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -22,12 +22,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
+    'auth_app',
     'api_admin',
     'api_chef',
     'api_waiter',
-    'rest_framework.authtoken',
-    'dj_rest_auth',
+    # 'dj_rest_auth',
 ]
 
 
@@ -109,19 +110,21 @@ MEDIA_URL = '/media/'
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+AUTH_USER_MODEL = "auth_app.CustomUser"
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ]
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #    'rest_framework.authentication.TokenAuthentication',
+    #    'rest_framework.authentication.BasicAuthentication',
+    #    'rest_framework.authentication.SessionAuthentication',
+    # ]
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
-
-AUTH_USER_MODEL = "auth_app.CustomUser"
 
 LOGGING = {
     'version': 1,

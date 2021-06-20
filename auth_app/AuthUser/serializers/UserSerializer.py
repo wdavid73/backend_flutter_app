@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from ...CustomUser import CustomUser
+from ...models import CustomUser
 from ...Restaurant.models.RestaurantModel import Restaurant
 from ...Position.models.PositionModel import Position
 from ...Restaurant.serializers.RestaurantSerializer import RestaurantSerializer

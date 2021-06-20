@@ -2,7 +2,7 @@ from rest_framework import serializers
 from ...Model.ModelOrder import Order_Dish
 
 from auth_app.AuthUser.serializers.UserSerializer import UserSerializer
-from auth_app.CustomUser import CustomUser
+from auth_app.models import CustomUser
 
 from ...Model.ModelOrder import Order
 from ...Serializer.SerializerOrder import OrderSerializer

@@ -6,7 +6,7 @@ urlpatterns = [
     path("orders/", include("api_waiter.Order.urls")),
 
     # Authentication
-    path('api_auth/', include('auth_app.urls_auth')),
+    #path('api_auth/', include('auth_app.urls_auth')),
 
 
 ]

@@ -14,5 +14,5 @@ urlpatterns = [
     path("list_chefs/", list_chefs, name="list_of_chefs"),
     path("list_waiters/", list_waiters, name="list_of_waiters"),
     # Authentication
-    path('api_auth/', include('auth_app.urls')),
+    #path('api_auth/', include('auth_app.urls')),
 ]
