@@ -8,7 +8,7 @@ class Position(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "Position : {}".format(self.name)
+        return "{}".format(self.name)
 
     def get_absolute_url(self):
         return reverse("auth_app:position_details", kwargs={"id": self.id})

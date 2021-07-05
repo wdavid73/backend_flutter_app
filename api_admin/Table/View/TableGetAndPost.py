@@ -4,12 +4,14 @@ from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from my_restaurant_app.validations import validate_user
 from ..Model.ModelTable import Table
 from ..Serializer.SerializerTable import TableSerializer
 
 
 class GetAndPost(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request: Request):
         if validate_user(request):

@@ -1,11 +1,13 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from my_restaurant_app.validations import validate_user
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import api_view
+from my_restaurant_app.validations import user_validate_required
 
 
+@api_view(["GET"])
+@user_validate_required
 def api_waiter(request):
-    if validate_user(request):
-        print(request.user.position)
-        return HttpResponse("api waiter , user is authenticated and user is a waiter")
+    if request.user.is_authenticated:
+        return Response({"msg":"api waiter , user is authenticated"} , status=status.HTTP_200_OK)
     else:
-        return HttpResponse("api waiter , user is not authenticated or user is not a waiter")
+        return Response({"msg":"api waiter , user is not authenticated"} , status=status.HTTP_401_UNAUTHORIZED)

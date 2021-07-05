@@ -1,8 +1,10 @@
 from django.http import Http404
 from rest_framework import status, generics
+from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
+from rest_framework.permissions import IsAuthenticated
 from my_restaurant_app.validations import validate_user, user_validate_required
 
 from ..Model.ModelOrder import Order, Order_Dish
@@ -13,6 +15,7 @@ from api_admin.Dish.serializers.DishSerializer import DishSerializer
 
 @api_view(["POST"])
 @user_validate_required
+@permission_classes([IsAuthenticated])
 def edit_order(request: Request, code: str):
     order = Order.objects.get(code=code)
     # update order
@@ -29,6 +32,7 @@ def edit_order(request: Request, code: str):
 
 @api_view(["POST"])
 @user_validate_required
+@permission_classes([IsAuthenticated])
 def edit_order_dish(request: Request, code: str, list_dish_id: list):
     print(code)
     print(list_dish_id)
@@ -37,6 +41,7 @@ def edit_order_dish(request: Request, code: str, list_dish_id: list):
 
 @api_view(["POST"])
 @user_validate_required
+@permission_classes([IsAuthenticated])
 def edit_order_complement(request: Request, code: str, list_comple_id: list):
     print(code)
     print(list_comple_id)
@@ -45,14 +50,15 @@ def edit_order_complement(request: Request, code: str, list_comple_id: list):
 
 @api_view(["POST"])
 @user_validate_required
+@permission_classes([IsAuthenticated])
 def edit_order_drink(request: Request, code: str, list_drink_id: list):
     print(code)
     print(list_drink_id)
     pass
 
 
-class EditOrder(generics.GenericAPIView):
-    serializer_class = OrderSerializer
+class EditOrder(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get_object(self, code: str):
         try:
@@ -63,7 +69,7 @@ class EditOrder(generics.GenericAPIView):
     def put(self, request: Request, code: str):
         if validate_user(request):
             order = self.get_object(code)
-            serializer = self.get_serializer(
+            serializer = OrderSerializer(
                 order, data=request.data, context={'request': request})
             if serializer.is_valid():
                 serializer.save()

@@ -40,3 +40,11 @@ def list_waiters(request: Request):
         )
         return Response({"waiters": serializer.data, "status": status.HTTP_200_OK})
     return Response({"error": "user invalid", "status": status.HTTP_401_UNAUTHORIZED})
+
+@api_view(["GET"])
+def list_users(request: Request):
+    if(request.user.is_superuser and request.user.is_authenticated):
+        users = CustomUser.objects.all()
+        serializer = UserSerializer(users , many=True , context={'request' : request})
+        return Response({'users' : serializer.data} , status=status.HTTP_200_OK)
+    return Response({'error' : "invalid user"} , status=status.HTTP_401_UNAUTHORIZED)

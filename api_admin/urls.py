@@ -1,6 +1,6 @@
 from django.urls import path, include
 from .views.api_admin import api_admin
-from .views.list_users import list_chefs, list_waiters
+from .views.list_users import list_chefs, list_waiters,list_users
 
 urlpatterns = [
     path("", api_admin, name="index_api_admin"),
@@ -13,6 +13,7 @@ urlpatterns = [
     path("drink/", include("api_admin.Drink.urls")),
     path("list_chefs/", list_chefs, name="list_of_chefs"),
     path("list_waiters/", list_waiters, name="list_of_waiters"),
+    path("list_users/" , list_users, name="list_of_users"),
     # Authentication
     #path('api_auth/', include('auth_app.urls')),
 ]

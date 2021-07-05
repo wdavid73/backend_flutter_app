@@ -4,5 +4,6 @@
     "--load-plugins=pylint_django",
 ],
   "editor.fontFamily": "'JetBrains Mono',Consolas, 'Courier New', monospace",
-  "editor.fontLigatures": true
+  "editor.fontLigatures": true,
+  "python.pythonPath": "D:\\Devs\\MyRestaurantApp\\backend_windows\\Scripts\\python.exe"
 }

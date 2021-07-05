@@ -11,7 +11,6 @@ class Logout(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request, format=None):
-        print(request.user)
-        # request.user.auth_token.delete()
-        # logout(request)
+        request.user.auth_token.delete()
+        logout(request)
         return Response({"data": "You are Logout", "status": status.HTTP_200_OK})

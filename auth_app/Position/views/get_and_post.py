@@ -1,7 +1,3 @@
-import random
-from typing import Union, List, Dict
-from django.db.models import QuerySet
-from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -15,7 +11,8 @@ from ...models import CustomUser
 
 
 class GetAndPost(APIView):
-
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request: Request):
         positions = Position.objects.filter(state=1)
         serializer = PositionSerializer(
@@ -32,6 +29,9 @@ class GetAndPost(APIView):
 
 
 class GetByUser(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    
     def get(self, request: Request, id: int):
         user = CustomUser.objects.get(id=id, state=1)
         serializer = PositionSerializer(
@@ -40,6 +40,9 @@ class GetByUser(APIView):
 
 
 class GetByName(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    
     def get(self, request: Request, name: str):
         position = Position.objects.get(name=name)
         serializer = PositionSerializer(position, context={"request": request})

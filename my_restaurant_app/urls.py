@@ -1,5 +1,4 @@
 from django.conf.urls import handler400
-from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
@@ -15,7 +14,8 @@ urlpatterns = [
     path('api_admin/', include('api_admin.urls')),
     path("api_auth/", include("auth_app.urls_auth")),
     path('restaurant/', include('auth_app.Restaurant.urls')),
-    #path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('positions/', include("auth_app.Position.urls")),
+
     # path('admin/', admin.site.urls),
 ]
 

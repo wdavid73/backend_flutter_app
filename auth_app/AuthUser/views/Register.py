@@ -8,15 +8,15 @@ from ..serializers.RegisterSerializer import RegisterSerializer
 from ..serializers.TokenSerializer import TokenSerializer
 from my_restaurant_app.validations import validate_restaurant_code
 
-
-class RegisterAPI(APIView):
-    # serializer_class = RegisterSerializer
+from rest_framework import generics
+class RegisterAPI(generics.GenericAPIView):
+    serializer_class = RegisterSerializer
     # authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         if validate_restaurant_code(request):
-            serializer = RegisterSerializer(data=request.data)
+            serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             user = serializer.save()
             token = Token.objects.create(user=user)

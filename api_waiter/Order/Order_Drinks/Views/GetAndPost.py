@@ -9,27 +9,27 @@ from ...View.total_order import calculate_total_order
 from api_admin.Drink.Model.ModelDrink import Drink
 
 
-class GetAndPost(generics.GenericAPIView):
-    serializer_class = OrderDrinkSerializer
+class GetAndPost(APIView):
 
     def get(self, request: Request):
         if validate_user(request):
             order_dish = Order_Drinks.objects.filter(state=1)
-            serializer = self.get_serializer(
+            serializer = OrderDrinkSerializer(
                 order_dish, context={'request': request}, many=True)
             return Response({"data": serializer.data}, status=status.HTTP_200_OK)
         return Response({"data": "user invalid"}, status=status.HTTP_401_UNAUTHORIZED)
 
     def post(self, request: Request):
         if validate_user(request):
-            serializer = self.get_serializer(
+            serializer = OrderDrinkSerializer(
                 data=request.data, context={'request': request})
             if serializer.is_valid():
                 serializer.save()
+                new_data = request.data.copy()
                 # add price to total of order
                 calculate_total_order(
-                    request.data["order_code"],
-                    request.data["drink_id"],
+                    new_data["order_code"],
+                    new_data["drink_id"],
                     Drink
                 )
                 return Response({"data": serializer.data}, status=status.HTTP_201_CREATED)
