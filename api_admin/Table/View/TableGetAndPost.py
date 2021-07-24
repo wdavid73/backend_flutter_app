@@ -8,10 +8,10 @@ from rest_framework.permissions import IsAuthenticated
 from my_restaurant_app.validations import validate_user
 from ..Model.ModelTable import Table
 from ..Serializer.SerializerTable import TableSerializer
-
+from my_restaurant_app.customPermissions import TokenPermission
 
 class GetAndPost(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [TokenPermission]
 
     def get(self, request: Request):
         if validate_user(request):

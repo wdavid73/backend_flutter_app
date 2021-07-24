@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view,permission_classes
 from my_restaurant_app.validations import user_validate_required
 from ..Model.ModelOrder import Order, Order_Complement, Order_Dish, Order_Drinks, Order_User
 from ..Serializer.SerializerOrder import OrderSerializer
-
+from my_restaurant_app.customPermissions import TokenPermission
 from api_admin.Dish.models.DishModel import Dish
 from api_admin.Dish.serializers.DishSerializer import DishSerializer
 from api_admin.Drink.Model.ModelDrink import Drink
@@ -17,7 +17,7 @@ from api_admin.Complement.Serializer.SerializerComplement import ComplementSeria
 
 @api_view(["GET"])
 @user_validate_required
-@permission_classes([IsAuthenticated])
+@permission_classes([TokenPermission])
 def find_order(request: Request, code: str):
 
     # find order

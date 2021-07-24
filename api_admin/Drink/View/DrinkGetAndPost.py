@@ -6,10 +6,11 @@ from rest_framework.permissions import IsAuthenticated
 from my_restaurant_app.validations import validate_user
 from ..Model.ModelDrink import Drink
 from ..Serializer.SerializerDrink import DrinkSerializer
+from my_restaurant_app.customPermissions import TokenPermission
 
 
 class GetAndPost(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [TokenPermission]
 
 
     def get(self, request: Request):

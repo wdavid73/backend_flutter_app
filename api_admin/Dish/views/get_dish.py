@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from my_restaurant_app.validations import validate_user, validate_restaurant_code, user_validate_required
-
+from my_restaurant_app.customPermissions import TokenPermission
 from ..models.DishModel import Dish, Dish_Ingredient
 from ...Ingredient.models.IngredientModel import Ingredient
 from ..Dish_Ingredient.serializers.Dish_Ingredient_Serializer import Dish_Ingredient_Serializer
@@ -14,7 +14,7 @@ from ...Ingredient.serializers.IngredientSerializer import IngredientSerializer
 
 @api_view(["GET"])
 @user_validate_required
-@permission_classes([IsAuthenticated])
+@permission_classes([TokenPermission])
 def get_dish_with_ingredient(request: Request, id: int):
     if len(Dish_Ingredient.objects.filter(state=1, dish_id=id)) > 0:
         dish = DishSerializer(

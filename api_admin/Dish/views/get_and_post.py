@@ -4,12 +4,14 @@ from rest_framework.request import Request
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from my_restaurant_app.validations import validate_user, validate_restaurant_code
+from my_restaurant_app.customPermissions import TokenPermission
+
 from ..models.DishModel import Dish
 from ..serializers.DishSerializer import DishSerializer
 
 
 class GetAndPost(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [TokenPermission]
     
     def get(self, request: Request):
         if validate_user(request):

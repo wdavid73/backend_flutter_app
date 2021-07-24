@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from my_restaurant_app.validations import validate_user
-
+from my_restaurant_app.customPermissions import TokenPermission
 from auth_app.models import CustomUser
 from auth_app.AuthUser.serializers.UserSerializer import UserSerializer
 from auth_app.AuthUser.serializers.RegisterSerializer import RegisterSerializer
@@ -14,7 +14,7 @@ from auth_app.AuthUser.serializers.TokenSerializer import TokenSerializer
 
 
 class GetAndPostFromAdmin(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [TokenPermission]
     
     def get(self, request: Request):
         if validate_user(request):

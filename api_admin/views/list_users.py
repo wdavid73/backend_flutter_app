@@ -1,11 +1,12 @@
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view , permission_classes
 from my_restaurant_app.validations import validate_user, validate_restaurant_code
 from auth_app.Position.models.PositionModel import Position
 from auth_app.models import CustomUser
 from auth_app.AuthUser.serializers.UserSerializer import UserSerializer
+from my_restaurant_app.customPermissions import TokenPermission
 
 
 @api_view(["GET"])
@@ -42,9 +43,10 @@ def list_waiters(request: Request):
     return Response({"error": "user invalid", "status": status.HTTP_401_UNAUTHORIZED})
 
 @api_view(["GET"])
+@permission_classes([TokenPermission])
 def list_users(request: Request):
-    if(request.user.is_superuser and request.user.is_authenticated):
-        users = CustomUser.objects.all()
-        serializer = UserSerializer(users , many=True , context={'request' : request})
-        return Response({'users' : serializer.data} , status=status.HTTP_200_OK)
-    return Response({'error' : "invalid user"} , status=status.HTTP_401_UNAUTHORIZED)
+    #if(request.user.is_superuser and request.user.is_authenticated):
+    users = CustomUser.objects.all()
+    serializer = UserSerializer(users , many=True , context={'request' : request})
+    return Response({'users' : serializer.data} , status=status.HTTP_200_OK)
+    #return Response({'error' : "invalid user"} , status=status.HTTP_401_UNAUTHORIZED)

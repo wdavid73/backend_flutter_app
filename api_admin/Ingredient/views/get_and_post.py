@@ -4,13 +4,13 @@ from rest_framework.request import Request
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from my_restaurant_app.validations import validate_user
-
+from my_restaurant_app.customPermissions import TokenPermission
 from ..models.IngredientModel import Ingredient
 from ..serializers.IngredientSerializer import IngredientSerializer
 
 
 class GetAndPost(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [TokenPermission]
     
     
     def get(self, request: Request):

@@ -2,16 +2,16 @@ from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated , AllowAny
 
 
 from ..models.PositionModel import Position
 from ..serializers.PositionSerializer import PositionSerializer
 from ...models import CustomUser
-
+from my_restaurant_app.customPermissions import TokenPermission
 
 class GetAndPost(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     
     def get(self, request: Request):
         positions = Position.objects.filter(state=1)
@@ -29,7 +29,7 @@ class GetAndPost(APIView):
 
 
 class GetByUser(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [TokenPermission]
     
     
     def get(self, request: Request, id: int):
@@ -40,7 +40,7 @@ class GetByUser(APIView):
 
 
 class GetByName(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [TokenPermission]
     
     
     def get(self, request: Request, name: str):

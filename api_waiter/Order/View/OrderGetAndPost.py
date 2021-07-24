@@ -8,7 +8,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from my_restaurant_app.validations import validate_user, type_user_valid
-
+from my_restaurant_app.customPermissions import TokenPermission
 from auth_app.models import CustomUser
 from ..Order_User.Serializer.Order_UserSerializer import OrderUserSerializer
 from ..Model.ModelOrder import Order, Order_User, Order_Dish, Order_Drinks, Order_Complement
@@ -16,7 +16,7 @@ from ..Serializer.SerializerOrder import OrderSerializer
 
 
 class GetAndPost(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [TokenPermission]
 
     def get(self, request: Request) -> Response:
         if validate_user(request):

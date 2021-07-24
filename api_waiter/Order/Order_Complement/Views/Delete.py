@@ -6,11 +6,11 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from my_restaurant_app.validations import validate_user, user_validate_required
 from ...Model.ModelOrder import Order_Complement
-
+from my_restaurant_app.customPermissions import TokenPermission
 
 @api_view(["POST"])
 @user_validate_required
-@permission_classes([IsAuthenticated])
+@permission_classes([TokenPermission])
 def delete_complement(request: Request, id: int):
     object = get_object_or_404(Order_Complement, id=id)
     object.state = 0
