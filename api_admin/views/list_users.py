@@ -22,8 +22,8 @@ def list_chefs(request: Request):
                 restaurant_id=restaurant_code,
             ), many=True, context={'request': request}
         )
-        return Response({"chefs": serializer.data, "status": status.HTTP_200_OK})
-    return Response({"error": "user invalid", "status": status.HTTP_401_UNAUTHORIZED})
+        return Response({"chefs": serializer.data}, status= status.HTTP_200_OK)
+    return Response({"error": "user invalid"},status= status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(["GET"])
