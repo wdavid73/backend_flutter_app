@@ -1,3 +1,4 @@
+from datetime import date
 from django.db import models
 from django.urls import reverse
 from auth_app.Restaurant.models.RestaurantModel import Restaurant
@@ -11,13 +12,18 @@ types = [
 ]
 
 
+def nameFile(instance, filename):
+    todays_date = date.today()
+    return '/'.join(['images', "dishes", "{}".format(todays_date.year), filename])
+
+
 class Dish(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     type = models.CharField(max_length=100, blank=False,
                             null=False, choices=types)
-    photo = models.ImageField(upload_to="dishes/%Y/",
-                              default='not-image.png')
+    photo = models.ImageField(upload_to=nameFile,
+                              default='not-image.png', null=False)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE,
                                    db_column='restaurant_code', null=True)
     ingredient = models.ManyToManyField(Ingredient, through="Dish_Ingredient")
