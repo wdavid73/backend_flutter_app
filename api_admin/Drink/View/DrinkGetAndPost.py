@@ -12,10 +12,9 @@ from my_restaurant_app.customPermissions import TokenPermission
 class GetAndPost(APIView):
     permission_classes = [TokenPermission]
 
-
     def get(self, request: Request):
         if validate_user(request):
-            drinks = Drink.objects.filter(state=1)()
+            drinks = Drink.objects.filter(state=1)
             serializer = DrinkSerializer(drinks, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({"data": "user invalid"}, status=status.HTTP_401_UNAUTHORIZED)
