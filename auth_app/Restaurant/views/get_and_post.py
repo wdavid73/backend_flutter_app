@@ -5,29 +5,27 @@ from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+
 
 from auth_app.models import CustomUser
 from ..models.RestaurantModel import Restaurant
 from ..serializers.RestaurantSerializer import RestaurantSerializer
 
 
-class GetAndPost(APIView):
-    def get(self, request: Request):
-        restaurants = Restaurant.objects.filter(state=1)
-        serializer = RestaurantSerializer(
-            restaurants, many=True, context={'request': request})
-        return Response({'restaurants': serializer.data}, status=status.HTTP_200_OK)
-
-    def post(self, request: Request):
-        code = generate_code(Restaurant.objects.filter(state=1), dictLetter)
-        new_data = request.data.copy()
-        new_data['code'] = code
-        serializer = RestaurantSerializer(
-            data=new_data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def post(request: Request):
+    code = generate_code(Restaurant.objects.filter(state=1), dictLetter)
+    new_data = request.data.copy()
+    new_data['code'] = code
+    serializer = RestaurantSerializer(
+        data=new_data, context={'request': request})
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GetCodeByUserId(APIView):

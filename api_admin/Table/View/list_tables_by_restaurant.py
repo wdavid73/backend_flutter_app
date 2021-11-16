@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.decorators import api_view,permission_classes
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from my_restaurant_app.validations import user_validate_required
 from my_restaurant_app.customPermissions import TokenPermission
@@ -15,7 +15,7 @@ from ..Serializer.SerializerTable import TableSerializer
 def list_tables_by_restaurant(request: Request):
     restaurant_code = request.user.restaurant.code
     serializer = TableSerializer(
-        Table.objects.filter(restaurant=restaurant_code),
+        Table.objects.filter(restaurant=restaurant_code, state=1),
         context={'request': request},
         many=True
     )

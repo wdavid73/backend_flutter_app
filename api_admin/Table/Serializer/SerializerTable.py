@@ -15,4 +15,4 @@ class TableSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Table
-        fields = ('id', 'ref', 'restaurant', 'restaurant_code')
+        fields = ('id', 'ref', "state", 'restaurant', 'restaurant_code')
