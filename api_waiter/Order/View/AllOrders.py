@@ -14,6 +14,7 @@ from ..Serializer.SerializerOrder import OrderSerializer
 @user_validate_required
 @permission_classes([TokenPermission])
 def all_orders(request: Request):
-    order = Order.objects.all()
-    serializer = OrderSerializer(order, context={'request': request})
-    return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+    orders = Order.objects.all()
+    serializer = OrderSerializer(
+        orders, many=True, context={'request': request})
+    return Response({"order": serializer.data}, status=status.HTTP_200_OK)
