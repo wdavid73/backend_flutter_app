@@ -7,9 +7,11 @@ from .View.EditOrder import edit_order
 from .Order_Complement.Views.Delete import delete_complement
 from .Order_Dish.Views.Delete import delete_dish
 from .Order_Drinks.Views.Delete import delete_drinks
+from .View.AllOrders import all_orders
 
 urlpatterns = [
     path("", GetAndPost.as_view(), name="get_and_post"),
+    path("all/" , all_orders, name="all_orders"),
     path("find_order/<str:code>/", find_order, name="find_order"),
     path("action/<str:code>/<int:action>/", order_action, name="order_action"),
     path("close/<str:code>/", order_close, name="order_close"),
