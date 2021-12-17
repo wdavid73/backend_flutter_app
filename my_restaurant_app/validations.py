@@ -1,4 +1,5 @@
 from django.core.exceptions import PermissionDenied
+from django.http import Http404
 from rest_framework.request import Request
 from auth_app.Restaurant.models.RestaurantModel import Restaurant
 
@@ -45,7 +46,7 @@ def validate_restaurant_code(request: Request) -> bool:
             if restaurant.exists():
                 return True
             else:
-                raise PermissionDenied
+                raise Http404
         else:
             return False
     else:
@@ -54,4 +55,4 @@ def validate_restaurant_code(request: Request) -> bool:
         if restaurant.exists():
             return True
         else:
-            raise PermissionDenied
+            raise Http404
