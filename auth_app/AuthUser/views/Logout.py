@@ -22,5 +22,5 @@ class Logout(APIView):
             token.delete()
             return Response({"data": "You are Logout"}, status= status.HTTP_200_OK)
         except Token.DoesNotExist as e:
-            return Response({"error" : str(e)} , status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error" : "Token doesn't exist."} , status=status.HTTP_400_BAD_REQUEST)
 
