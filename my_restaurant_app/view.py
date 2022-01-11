@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.conf import settings
 from django.urls import URLPattern, URLResolver, get_resolver
+from django.urls.conf import re_path
 from rest_framework import status
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated , AllowAny
@@ -48,3 +49,14 @@ def get_endpoints(request: Request):
     for p in listEndpoints(urlconf.urlpatterns):
         list.append(''.join(p))
     return Response({'endpoint': list}, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def test_view(request: Request):
+    """ try:
+        print(request.FILES)
+        filepath = True if 'file' in request.FILES else False
+        return Response({'data': filepath}, status=status.HTTP_200_OK)    
+    except: """
+    return Response({"error": "ha ocurrido un error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
