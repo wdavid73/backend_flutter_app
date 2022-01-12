@@ -14,8 +14,8 @@ from ...Ingredient.serializers.IngredientSerializer import IngredientSerializer
 
 
 @api_view(["GET"])
-# @user_validate_required
-# @permission_classes([TokenPermission])
+@user_validate_required
+@permission_classes([TokenPermission])
 def get_ingredients_of_dish(request: Request, id: int):
     ingredients_dish = Dish_Ingredient.objects.filter(state=1, dish_id=id)
     if len(ingredients_dish) > 0 :
