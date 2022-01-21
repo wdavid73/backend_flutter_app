@@ -33,52 +33,55 @@ class GetAndPost(APIView):
     def post(self, request: Request) -> Response:
         if validate_user(request):
             if type_user_valid(request):
-                new_order = request.data.copy()
-                date_now = date.today()
-                code = generate_code(
-                    Order.objects.filter(action=1), dictLetter
-                )
-                new_order["code"] = code
-                new_order["date"] = date_now
-                dishesSelected = new_order["dishes_selected"]
-                drinksSelected = new_order["drinks_selected"]
+                try:
+                    new_order = request.data.copy()
+                    date_now = date.today()
+                    code = generate_code(
+                        Order.objects.filter(action=1), dictLetter
+                    )
+                    new_order["code"] = code
+                    new_order["date"] = date_now
+                    dishesSelected = new_order["dishes_selected"]
+                    drinksSelected = new_order["drinks_selected"]
 
-                # Remove Elements from dict
-                del new_order["dishes_selected"]
-                del new_order["drinks_selected"]
+                    # Remove Elements from dict
+                    del new_order["dishes_selected"]
+                    del new_order["drinks_selected"]
 
-                serializer = OrderSerializer(
-                    data=new_order, context={'request': request}
-                )
-
-                if serializer.is_valid():
-                    serializer.save()
-
-                    table_id = new_order["table_id"]
-                    table = Table.objects.get(id=table_id)
-                    table.state = 0
-                    table.save()
-
-                    serializer_order_dish = save_order_dishes(
-                        new_order["code"], dishesSelected, request)
-
-                    serializer_order_drink = save_order_drinks(
-                        new_order["code"], drinksSelected, request)
-
-                    serializer_order_user = save_order_user(
-                        new_order["code"], request.user, request
+                    serializer = OrderSerializer(
+                        data=new_order, context={'request': request}
                     )
 
-                    return Response(
-                        {
-                            "data": serializer.data,
-                            "order_user": serializer_order_user.data,
-                            "dishesSelected": serializer_order_dish,
-                            "drinksSelected": serializer_order_drink,
-                        },
-                        status=status.HTTP_201_CREATED
-                    )
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                    if serializer.is_valid():
+                        serializer.save()
+
+                        table_id = new_order["table_id"]
+                        table = Table.objects.get(id=table_id)
+                        table.state = 0
+                        table.save()
+
+                        serializer_order_dish = save_order_dishes(
+                            new_order["code"], dishesSelected, request)
+
+                        serializer_order_drink = save_order_drinks(
+                            new_order["code"], drinksSelected, request)
+
+                        serializer_order_user = save_order_user(
+                            new_order["code"], request.user, request
+                        )
+
+                        return Response(
+                            {
+                                "data": serializer.data,
+                                "order_user": serializer_order_user.data,
+                                "dishesSelected": serializer_order_dish,
+                                "drinksSelected": serializer_order_drink,
+                            },
+                            status=status.HTTP_201_CREATED
+                        )
+                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                except:
+                    return Response({"details": "an error has occurred"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response({"error": "user invalid"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
