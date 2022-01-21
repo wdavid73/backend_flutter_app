@@ -80,8 +80,8 @@ class GetAndPost(APIView):
                             status=status.HTTP_201_CREATED
                         )
                     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-                except:
-                    return Response({"details": "an error has occurred"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                except Exception as e:
+                    return Response({"details": e.message , "type" : type(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response({"error": "user invalid"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
