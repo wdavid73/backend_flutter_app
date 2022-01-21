@@ -3,6 +3,7 @@ import random
 from typing import Union, List, Dict
 from django.db.models import QuerySet
 from django.http.request import QueryDict
+from rest_framework.exceptions import ParseError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.request import Request
@@ -81,7 +82,7 @@ class GetAndPost(APIView):
                         )
                     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
                 except Exception as e:
-                    return Response({"details": e , "type" : type(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                    raise ParseError( f"an error occurred with {e}" )
         return Response({"error": "user invalid"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
