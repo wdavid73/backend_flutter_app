@@ -5,9 +5,9 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = config('DEBUG', cast=bool)
+DEBUG = os.environ.get('DEBUG')
 
 ALLOWED_HOSTS = ["*"]
 
@@ -62,16 +62,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'my_restaurant_app.wsgi.application'
 
-DATABASES = {
-    'default':  {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': 5432
-    }
-}
+# DATABASES = {
+#     'default':  {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': os.environ.get('DB_NAME'),
+#         'USER': os.environ.get('DB_USER'),
+#         'PASSWORD': os.environ.get('DB_PASSWORD'),
+#         'HOST': os.environ.get('DB_HOST'),
+#         'PORT': 5432
+#     }
+# }
+
+DATABASES = {'default': dj_database_url.parse('postgres://gnbqdqws:5aM4XEDypSneEqDxt5Uz1wIjF74yt033@kashin.db.elephantsql.com/gnbqdqws')}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
