@@ -12,6 +12,7 @@ from rest_framework.views import APIView
 from api_admin.Table.Model.ModelTable import Table
 from api_waiter.Order.Order_Dish.Serializer.OrderDishSerializer import OrderDishSerializer
 from api_waiter.Order.Order_Drinks.Serializer.OrderDrinkSerializer import OrderDrinkSerializer
+from api_waiter.Order.View.total_order import calculate_total_order
 from my_restaurant_app.validations import validate_user, type_user_valid
 from my_restaurant_app.customPermissions import TokenPermission
 from auth_app.models import CustomUser
@@ -71,9 +72,11 @@ class GetAndPost(APIView):
                             new_order["code"], request.user, request
                         )
 
+                        order = calculate_total_order(new_order["code"], None, None)
+
                         return Response(
                             {
-                                "data": serializer.data,
+                                "data": order,
                                 "order_user": serializer_order_user.data,
                                 "dishesSelected": serializer_order_dish,
                                 "drinksSelected": serializer_order_drink,

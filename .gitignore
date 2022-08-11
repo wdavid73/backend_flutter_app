@@ -3,3 +3,5 @@
 .media/*
 .static/*
 .vscode
+mysite.log
+./*/__pycache__/*
