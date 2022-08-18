@@ -19,48 +19,55 @@ from api_admin.Complement.Serializer.SerializerComplement import ComplementSeria
 @user_validate_required
 @permission_classes([TokenPermission])
 def find_order(request: Request, code: str):
+    try:
+        # find order
+        order_code = code.upper()
+        order = Order.objects.get(code=order_code)
+        order_dish = Order_Dish.objects.filter(order=order)
+        order_drink = Order_Drinks.objects.filter(order=order)
+        order_complement = Order_Complement.objects.filter(order=order)
+        order_serializer = OrderSerializer(order, context={'request': request})
 
-    # find order
-    order_code = code.upper()
-    order = Order.objects.exclude(action=3).get(code=order_code)
-    order_dish = Order_Dish.objects.filter(order=order)
-    order_drink = Order_Drinks.objects.filter(order=order)
-    order_complement = Order_Complement.objects.filter(order=order)
-    order_serializer = OrderSerializer(order, context={'request': request})
+        # find dishes in order
+        dishes_id = [od.dish.id for od in order_dish]
+        dishes = [
+            DishSerializer(
+                dish,
+                context={'request': request}
+            ).data for dish in Dish.objects.filter(id__in=dishes_id)
+        ]
 
-    # find dishes in order
-    dishes_id = [od.dish.id for od in order_dish]
-    dishes = [
-        DishSerializer(
-            dish,
-            context={'request': request}
-        ).data for dish in Dish.objects.filter(id__in=dishes_id)
-    ]
+        # find drinks in order
+        drinks_id = [odrink.drink.id for odrink in order_drink]
+        drinks = [
+            DrinkSerializer(
+                drink,
+                context={'request': request}
+            ).data for drink in Drink.objects.filter(id__in=drinks_id)
+        ]
 
-    # find drinks in order
-    drinks_id = [odrink.drink.id for odrink in order_drink]
-    drinks = [
-        DrinkSerializer(
-            drink,
-            context={'request': request}
-        ).data for drink in Drink.objects.filter(id__in=drinks_id)
-    ]
+        # find complemnets in order
+        complements_id = [oc.complement.id for oc in order_complement]
+        complements = [
+            ComplementSerializer(
+                complement,
+                context={'request': request}
+            ).data for complement in Complement.objects.filter(id__in=complements_id)
+        ]
 
-    # find complemnets in order
-    complements_id = [oc.complement.id for oc in order_complement]
-    complements = [
-        ComplementSerializer(
-            complement,
-            context={'request': request}
-        ).data for complement in Complement.objects.filter(id__in=complements_id)
-    ]
-
-    return Response(
-        {
-            "order": order_serializer.data,
-            "dishes": dishes,
-            "drinks": drinks,
-            "complements": complements
-        },
-        status=status.HTTP_200_OK
-    )
+        return Response(
+            {
+                "order": order_serializer.data,
+                "dishes": dishes,
+                "drinks": drinks,
+                "complements": complements
+            },
+            status=status.HTTP_200_OK
+        )
+    except Order.DoesNotExist:
+        return Response(
+            {
+                "error" : "Order doesn´t exist"
+            },
+            status=status.STATUS_404_NOT_FOUND,
+        )

@@ -9,7 +9,12 @@ from my_restaurant_app.customPermissions import TokenPermission
 from ..Model.ModelOrder import Order
 from ..Serializer.SerializerOrder import OrderSerializer
 
-types_actions = {1: "delivery", 2: "cancelled", 3: "pending"}
+types_actions = {
+    1: "pending",
+    2: "cancelled",
+    3: "delivery",
+    4: "padded"
+}
 
 
 @api_view(["POST"])
