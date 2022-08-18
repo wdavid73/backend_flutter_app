@@ -21,7 +21,8 @@ from api_admin.Complement.Serializer.SerializerComplement import ComplementSeria
 def find_order(request: Request, code: str):
 
     # find order
-    order = Order.objects.exclude(action=3).get(code=code)
+    order_code = code.upper()
+    order = Order.objects.exclude(action=3).get(code=order_code)
     order_dish = Order_Dish.objects.filter(order=order)
     order_drink = Order_Drinks.objects.filter(order=order)
     order_complement = Order_Complement.objects.filter(order=order)
